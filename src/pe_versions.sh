@@ -2,7 +2,7 @@
 
 if [ "$#" -ne 1 ]; then
     echo "Error: Illegal number of parameters"
-    echo "Usage: pe_versions.sh <2016|2017|2018|2019>"
+    echo "Usage: $0/pe_versions.sh <2016|2017|2018|2019>"
     exit
 fi
 
