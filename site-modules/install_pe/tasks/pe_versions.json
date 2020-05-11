@@ -1,0 +1,10 @@
+{
+    "description": "Print Puppet Enterprise version",
+    "input_method": "environment",
+    "parameters": {
+      "year": {
+        "description": "Valid year values are 2015 and later",
+        "type": "Integer" 
+      }
+    }
+}

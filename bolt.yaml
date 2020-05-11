@@ -1,0 +1,2 @@
+ssh:
+  host-key-check: false
