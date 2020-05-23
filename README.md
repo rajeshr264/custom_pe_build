@@ -1,10 +1,5 @@
-# custom_pe_build
-Builds a test-only PE environment 
+# vmware_workstation_homebuild
+Builds a homelab environment to practice Infra as code at home. We will be using Bolt, vmrun command with Vmware workstation 15 pro, Puppet Enterprise, Continous deployment for Puppet enterprise to manage the apps. 
 
-**Tasks**
-1. *Find PE versions to download*: 
-   - custom_pe_build/src/pe_versions.sh/pe_versions.sh <2016|2017|2018|2019>
-   - Eg: custom_pe_build/src/pe_versions.sh/pe_versions.sh 2016 
-2. *Install the PE version you want on the PE node*:
-   - 
-   - 
+**Automation Available**
+1.  
