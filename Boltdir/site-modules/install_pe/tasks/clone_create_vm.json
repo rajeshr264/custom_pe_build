@@ -1,0 +1,17 @@
+{
+  "description": "Clone the base VM, start an instance of the cloned VM and return the IP address",
+  "parameters": {
+    "base_os_vmx_file": {
+      "type": "String",
+      "description": "The path to base VM"
+    },
+    "pe_version": {
+      "type": "String",
+      "description": "PE version will be part of name of cloned VM"
+    }
+  },
+  "input_method": "environment",
+  "implementations": [
+    {"name": "clone_create_vm.sh"}
+  ]
+}

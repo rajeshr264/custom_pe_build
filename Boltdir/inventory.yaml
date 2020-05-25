@@ -1,0 +1,7 @@
+groups:
+  - name: vmware-ws
+    targets: [] # This will be populated by the Bolt plan
+    config:
+      transport: ssh
+      ssh:
+        host-key-check: false
