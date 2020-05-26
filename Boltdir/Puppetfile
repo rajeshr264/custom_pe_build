@@ -1,0 +1,7 @@
+mod 'puppetlabs/stdlib', '6.3.0'
+mod 'WhatsARanjit/node_manager','0.7.3'
+mod 'puppetlabs/bolt_shim','0.3.0'
+mod 'puppetlabs/apply_helpers','0.2.1'
+mod 'puppet/format','0.1.1-rc0'
+mod 'peadm',
+    :git => 'https://github.com/puppetlabs/puppetlabs-peadm'
