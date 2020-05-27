@@ -4,26 +4,31 @@ plan install_pe::provision (
   String $base_os_vmx_file,
   String $pe_version,
   Optional[String]  $r10k_remote = undef,
-  Optional[String]  $r10k_private_key_file = undef,
+  Optional[String]  $r10k_private_key_file = undef, 
 )
 {
   $localhost = get_targets('localhost')
 
-  # Use vmrun to create a new VM for hosting PE
-  $pe_changed_ver_string=regsubst($pe_version,'\.','_','G')
-  $pe_host_ip = run_task('install_pe::clone_create_vm',$localhost, 
-                          base_os_vmx_file => $base_os_vmx_file, pe_version => $pe_changed_ver_string).first['ip']
-  #out::message("IP = $pe_host_ip")
-
+  # Use vmrun to create a new VM for hosting PE. remove the '.' chars in the version, say "2019.7.0" to "201970".
+  # Can't replace the '.' chars with '-' as puppet func didn't like it. 
+  #can't replace '.' with '_' as its illegal hostname for Centos8's NetworkManager. 
+  $pe_changed_ver_string=regsubst($pe_version,'\.','','G')
+   # set the Host name of PE-master 
+  $pe_fqdns = "pe${pe_changed_ver_string}.harshamlabs.tk"
+ 
+  run_task('install_pe::clone_create_vm',$localhost, 
+           base_os_vmx_file => $base_os_vmx_file, pe_fqdns => "${pe_fqdns}")
+  
   # Turn PE host IP into Bolt targets, and add to inventory
-  $targets = Target.new("${$pe_host_ip}").add_to_group('vmware_ws')
+  $target = Target.new("${$pe_fqdns}").add_to_group('vmware_ws')
 
-  # set the Host name of PE-master and reboot  
-  run_command("hostnamectl set-hostname pe${pe_changed_ver_string}",$targets,_run_as => 'root','_catch_errors'=>true)
-  run_command("sed -i 's/ubuntu18/pe${pe_changed_ver_string}/' /etc/hosts",$targets,_run_as => 'root','_catch_errors'=>true)
-  run_task("reboot",$targets) # 
+  # open the firewall for HTTP, HTTPS and install python2 as it is a requirement for peadm::read_file task.
+  run_command("firewall-cmd --zone=public --add-service=http",$target, '_run_as' => 'root')
+  run_command("firewall-cmd --zone=public --add-service=https", $target, '_run_as' => 'root')
+  run_command("yum install -y python2", $target,'_run_as' => 'root' )
 
   # install PE on the PE-host
-
+  $install_result = run_plan("peadm::provision", master_host => "$pe_fqdns", 
+  console_password => "puppetlabs", version=>"2019.7.0")
 
 }

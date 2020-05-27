@@ -5,9 +5,9 @@
       "type": "String",
       "description": "The path to base VM"
     },
-    "pe_version": {
+    "pe_fqdns": {
       "type": "String",
-      "description": "PE version will be part of name of cloned VM"
+      "description": "Name of the PE Master"
     }
   },
   "input_method": "environment",
